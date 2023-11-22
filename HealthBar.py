@@ -41,13 +41,12 @@ class HealthBar:
 
     def draw(self, surface, idioma):
         # Calcular la relación de salud
+        if self.hp > 100:
+            self.hp = 100
         ratio = self.hp / self.max_hp
         if ratio < 0:
             ratio = 0
         color2 = calcular_color(100 * ratio)
-
-        if self.max_hp >= 100:
-            self.max_hp = 100
 
         # Dibujar la barra de salud
         pygame.draw.rect(surface, "black", (self.x, self.y, self.w, self.h))
