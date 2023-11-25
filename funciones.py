@@ -658,17 +658,19 @@ def instrucciones(nombre, genero, piel,idioma,level,puntuacion):
     pygame.display.set_caption(f"{title} - Alimenta Tu Barriga")
 
     idioma_actual = idiomas_manager.obtener_idioma()
+    top_image = pygame.transform.scale(
+        pygame.image.load(f"img/textoEnterN_{idioma_actual}.png"), (screen_width - 230, 60)
+    )
+    top_image_rect = top_image.get_rect()
     if (level==2):
         instrucciones_path = f"img/instrucciones/{idioma_actual}.png"
     else:
         instrucciones_path = f"img/instrucciones/{level}/{genero}_{piel}_{idioma_actual}.png"
     instruccionesHB = pygame.image.load(instrucciones_path).convert()
     instruccionesHB = pygame.transform.scale(instruccionesHB, (600, 750))
-    top_image = pygame.transform.scale(
-        pygame.image.load(f"img/textoEnterN_{idioma_actual}.png"), (screen_width - 230, 60)
-    )
-    top_image_rect = top_image.get_rect()
     if idioma_actual == "español":
+        if level==2:
+            top_image_rect.center = (screen_width // 2, 11)
         top_image_rect.center = (screen_width // 2, 38)
     else:
         top_image_rect.center = (screen_width // 2, 45)

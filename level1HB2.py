@@ -1,5 +1,6 @@
 import sys
 import pygame, random, os, time
+import button
 import comidaModel
 from pruebaBTN import Button
 from player2 import Player
@@ -22,7 +23,6 @@ from funciones import (
     endgame2,
     historia
 )
-
 
 class level1HB:
     def __init__(self):
@@ -111,13 +111,22 @@ class level1HB:
             self.backgroundDay = pygame.image.load("./img/tarde.png").convert()
             # Acá pongan todo lo restante del nivel 2
             self.poderes = Poderes(puntajeAnt)
-
         else:
             self.backgroundDay = pygame.image.load("./img/noche.png").convert()
             self.poderes = Poderes(puntajeAnt)
             # Acá pongan todo lo restante del nivel 3
             # Puedes crear una clase específica para manejar el nivel 3 si es necesario
             # self.nivel_tres = NivelTres()
+        if self.level_number==2 or self.level_number==3:
+            btn1 = pygame.image.load("img/btn/1.png").convert_alpha()
+            btn1 = pygame.transform.scale(btn1, (60, 60))
+            btn1 = button.Button(10, 268, btn1, 0.7)
+            btn2 = pygame.image.load("img/btn/2.png").convert_alpha()
+            btn2 = pygame.transform.scale(btn2, (60, 60))
+            btn2 = button.Button(10, 364, btn2, 0.7)
+            btn3 = pygame.image.load("img/btn/3.png").convert_alpha()
+            btn3 = pygame.transform.scale(btn3, (60, 60))
+            btn3 = button.Button(10, 470, btn3, 0.7)
 
         player1 = friend.Friend((80, 195), "amigo1", 4, True)
         player2 = friend.Friend((510, 195), "amigo2", 4, False)
@@ -145,6 +154,10 @@ class level1HB:
             pygame.image.load("./img/btn/btnUnmute.png").convert_alpha(),
             0.09,
         )
+        btnFlechas = pygame.image.load("img/btn/keyDown.png").convert_alpha()
+        btnFlechas = pygame.transform.scale(btnFlechas, (40, 40))
+        btnFlechas = button.Button(43, 712, btnFlechas, 0.8)
+        
         player = Player(
             (self.coord_x, self.coord_y), genero, complexion, color, self.level_number
         )
@@ -167,6 +180,7 @@ class level1HB:
                         if btnPociones.is_hover(mouse_x, mouse_y):
                             self.game_state="pociones"
                     if btnMute.is_hover(mouse_x, mouse_y):
+                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
                         if self.is_mute:
                             self.unmute()
                         else:
@@ -521,8 +535,12 @@ class level1HB:
 
                 btnInfo.draw(self.screen)
                 btnMute.draw(self.screen)
+                btnFlechas.draw(self.screen)
                 if level_number==2 or level_number==3:
                     btnPociones.draw(self.screen)
+                    btn1.draw(self.screen)
+                    btn2.draw(self.screen)
+                    btn3.draw(self.screen)
 
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 if btnInfo.is_hover(mouse_x, mouse_y):
@@ -533,10 +551,14 @@ class level1HB:
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                 if self.is_mute:
                     btnMute.change_image(btnMute.hover_image)
-                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
                 else:
                     btnMute.change_image(btnMute.normal_image)
-                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+                # if btnMute.is_hover(mouse_x, mouse_y):
+                #     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+                # else:
+                #     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+ 
+
 
             pygame.display.flip()
             self.clock.tick(40)
